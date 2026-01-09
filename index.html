@@ -1,0 +1,29 @@
+cat > index.html <<'EOF'
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>AVN Test Reports</title>
+</head>
+<body>
+  <h2>AVN Test Reports</h2>
+  <p>This site hosts automated test reports.</p>
+
+  <h3>Functional</h3>
+  <ul>
+    <li><a href="./functional/dev/latest.html">Functional - Dev (latest)</a></li>
+    <li><a href="./functional/public_testnet/latest.html">Functional - Public Testnet (latest)</a></li>
+    <li><a href="./functional/vow/latest.html">Functional - Vow (latest)</a></li>
+  </ul>
+
+  <h3>Gateway</h3>
+  <ul>
+    <li><a href="./gateway/dev/latest.html">Gateway - Dev (latest)</a></li>
+    <li><a href="./gateway/public_testnet/latest.html">Gateway - Public Testnet (latest)</a></li>
+    <li><a href="./gateway/vow/latest.html">Gateway - Vow (latest)</a></li>
+  </ul>
+
+  <p><em>Links will work after the first reports are published.</em></p>
+</body>
+</html>
+EOF
