@@ -237,11 +237,20 @@ async function publishReport(opts) {
     throw new Error(`Report not found at: ${absReportPath}`);
   }
 
+  // Prevent git from ever trying to prompt in CI
+  process.env.GIT_TERMINAL_PROMPT = '0';
+
   const workDir = fs.mkdtempSync(path.join(os.tmpdir(), 'avn-test-reports-'));
-  const repoUrl = `https://${token}@github.com/${repo}.git`;
+
+  // Use GitHub-recommended token URL format
+  const repoUrl = `https://x-access-token:${token}@github.com/${repo}.git`;
 
   console.log(`📥 Cloning ${repo} (${branch})...`);
   run(`git clone --branch ${branch} ${repoUrl} .`, workDir);
+
+  // Force origin to authenticated URL (prevents prompt/credential-helper weirdness)
+  run(`git remote set-url origin ${repoUrl}`, workDir);
+  run(`git config --local credential.helper ""`, workDir);
 
   const targetDir = path.join(workDir, suite, chain);
   fs.mkdirSync(targetDir, { recursive: true });
