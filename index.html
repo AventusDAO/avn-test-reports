@@ -1,33 +1,274 @@
-cat > index.html <<'EOF'
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>AVN Test Reports</title>
+  <style>
+    :root{
+      --bg:#0b1220;
+      --panel:#101b33;
+      --text:#eaf0ff;
+      --muted:#a8b3d6;
+      --line:rgba(255,255,255,.10);
+      --accent:#7aa2ff;
+      --good:#2dd4bf;
+      --warn:#fbbf24;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 16px;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background: radial-gradient(1200px 800px at 20% 0%, #162652 0%, var(--bg) 55%) fixed;
+      color: var(--text);
+    }
+    .container{ max-width:1100px; margin:0 auto; padding:28px 18px 60px; }
+    .header{
+      display:flex; gap:16px; align-items:flex-end; justify-content:space-between; flex-wrap:wrap;
+      padding:18px 18px 22px;
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      box-shadow: var(--shadow);
+    }
+    h1{ margin:0; font-size:28px; letter-spacing:.2px; }
+    .subtitle{ margin:6px 0 0; color:var(--muted); line-height:1.35; font-size:14px; }
+    .pill{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:10px 12px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background: rgba(0,0,0,.18);
+      color: var(--muted);
+      font-size: 13px;
+      white-space:nowrap;
+    }
+    .dot{ width:9px;height:9px;border-radius:999px;background:var(--good); box-shadow:0 0 0 3px rgba(45,212,191,.15); }
+    .grid{ margin-top:18px; display:grid; grid-template-columns:repeat(12,1fr); gap:16px; }
+    .card{
+      grid-column: span 12;
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    @media (min-width: 900px){ .card{ grid-column: span 6; } }
+    .card-head{
+      padding:16px 18px;
+      background: linear-gradient(90deg, rgba(122,162,255,.16), rgba(0,0,0,0));
+      border-bottom:1px solid var(--line);
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+    }
+    .card-head h2{ margin:0; font-size:18px; letter-spacing:.2px; }
+    .badge{
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      color: var(--muted);
+      background: rgba(0,0,0,.18);
+      font-size: 12px;
+    }
+    .card-body{ padding:14px 18px 18px; }
+    .chain-list{ display:flex; flex-direction:column; gap:10px; margin:0; padding:0; list-style:none; }
+    .row{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding:12px 12px;
+      border:1px solid var(--line);
+      border-radius:12px;
+      background: rgba(0,0,0,.16);
+    }
+    .row-left{ display:flex; flex-direction:column; gap:2px; min-width: 170px; }
+    .row-title{ font-weight:700; font-size:14px; letter-spacing:.2px; }
+    .row-sub{ color: var(--muted); font-size:12px; }
+    .actions{ display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
+    .btn{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background: rgba(122,162,255,.12);
+      text-decoration:none;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .btn:hover{ background: rgba(122,162,255,.18); }
+    .footer{
+      margin-top: 18px;
+      padding: 14px 18px;
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(0,0,0,.18);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    code{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      background: rgba(255,255,255,.06);
+      padding: 2px 6px;
+      border-radius: 8px;
+      border:1px solid var(--line);
+      color: var(--text);
+      font-size: 12px;
+    }
+    .status{ margin-left:8px; font-size:12px; color: var(--muted); }
+    .status.missing{ color: var(--warn); }
+  </style>
 </head>
 <body>
-  <h2>AVN Test Reports</h2>
-  <p>This site hosts automated test reports.</p>
+  <div class="container">
+    <div class="header">
+      <div>
+        <h1>AVN Test Reports</h1>
+        <p class="subtitle">
+          Interactive Mochawesome reports hosted on GitHub Pages.
+          Use <code>latest.html</code> for quick access. Older runs are kept as timestamped files.
+        </p>
+      </div>
+      <div class="pill" title="GitHub Pages hosted">
+        <span class="dot"></span>
+        Hosted on <strong>aventusdao.github.io</strong>
+      </div>
+    </div>
 
-  <h3>Functional</h3>
-  <ul>
-    <li><a href="./functional/dev/latest.html">Functional - Dev (latest)</a></li>
-    <li><a href="./functional/public_testnet/latest.html">Functional - Public Testnet (latest)</a></li>
-    <li><a href="./functional/vow/latest.html">Functional - Vow (latest)</a></li>
-    <li><a href="./functional/truth/latest.html">Functional - Truth dev (latest)</a></li>
-    <li><a href="./functional/truth_testnet/latest.html">Functional - Truth testnet (latest)</a></li>
-  </ul>
+    <div class="grid">
+      <!-- Functional -->
+      <section class="card">
+        <div class="card-head">
+          <h2>Functional</h2>
+          <span class="badge">Suite</span>
+        </div>
+        <div class="card-body">
+          <ul class="chain-list">
+            <li class="row">
+              <div class="row-left">
+                <div class="row-title">AVN • Dev</div>
+                <div class="row-sub">./functional/avn/dev/</div>
+              </div>
+              <div class="actions">
+                <a class="btn" data-check href="./functional/avn/dev/latest.html">Open latest</a>
+              </div>
+            </li>
 
-  <h3>Gateway</h3>
-  <ul>
-    <li><a href="./gateway/dev/latest.html">Gateway - Dev (latest)</a></li>
-    <li><a href="./gateway/public_testnet/latest.html">Gateway - Public Testnet (latest)</a></li>
-    <li><a href="./gateway/vow/latest.html">Gateway - Vow (latest)</a></li>
-    <li><a href="./gateway/truth/latest.html">Gateway - Truth dev (latest)</a></li>
-    <li><a href="./gateway/truth_testnet/latest.html">Gateway - Truth testnet (latest)</a></li>
-  </ul>
+            <li class="row">
+              <div class="row-left">
+                <div class="row-title">AVN • Public Testnet</div>
+                <div class="row-sub">./functional/avn/public_testnet/</div>
+              </div>
+              <div class="actions">
+                <a class="btn" data-check href="./functional/avn/public_testnet/latest.html">Open latest</a>
+              </div>
+            </li>
 
-  <p><em>Links will work after the first reports are published.</em></p>
+            <li class="row">
+              <div class="row-left">
+                <div class="row-title">Vow</div>
+                <div class="row-sub">./functional/vow/</div>
+              </div>
+              <div class="actions">
+                <a class="btn" data-check href="./functional/vow/latest.html">Open latest</a>
+              </div>
+            </li>
+
+            <li class="row">
+              <div class="row-left">
+                <div class="row-title">Truth</div>
+                <div class="row-sub">./functional/truth/</div>
+              </div>
+              <div class="actions">
+                <a class="btn" data-check href="./functional/truth/latest.html">Open latest</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Gateway -->
+      <section class="card">
+        <div class="card-head">
+          <h2>Gateway</h2>
+          <span class="badge">Suite</span>
+        </div>
+        <div class="card-body">
+          <ul class="chain-list">
+            <li class="row">
+              <div class="row-left">
+                <div class="row-title">AVN • Dev</div>
+                <div class="row-sub">./gateway/avn/dev/</div>
+              </div>
+              <div class="actions">
+                <a class="btn" data-check href="./gateway/avn/dev/latest.html">Open latest</a>
+              </div>
+            </li>
+
+            <li class="row">
+              <div class="row-left">
+                <div class="row-title">AVN • Public Testnet</div>
+                <div class="row-sub">./gateway/avn/public_testnet/</div>
+              </div>
+              <div class="actions">
+                <a class="btn" data-check href="./gateway/avn/public_testnet/latest.html">Open latest</a>
+              </div>
+            </li>
+
+            <li class="row">
+              <div class="row-left">
+                <div class="row-title">Vow</div>
+                <div class="row-sub">./gateway/vow/</div>
+              </div>
+              <div class="actions">
+                <a class="btn" data-check href="./gateway/vow/latest.html">Open latest</a>
+              </div>
+            </li>
+
+            <li class="row">
+              <div class="row-left">
+                <div class="row-title">Truth</div>
+                <div class="row-sub">./gateway/truth/</div>
+              </div>
+              <div class="actions">
+                <a class="btn" data-check href="./gateway/truth/latest.html">Open latest</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </div>
+
+    <div class="footer">
+      💡 If a report was just published and you still see an older one, do a hard refresh
+      (<code>Ctrl+Shift+R</code>) or append <code>?ts=123</code> to the URL to bypass cache.
+      <span class="status" id="status"></span>
+    </div>
+  </div>
+
+  <script>
+    // Best-effort: mark links that aren't published yet (helps first-time setup).
+    (async function() {
+      const links = Array.from(document.querySelectorAll('a[data-check]'));
+      if (!links.length) return;
+
+      let missing = 0;
+      await Promise.all(links.map(async (a) => {
+        try {
+          const res = await fetch(a.getAttribute('href'), { method: 'HEAD' });
+          if (!res.ok) throw new Error('not ok');
+        } catch (e) {
+          missing++;
+          const s = document.createElement('span');
+          s.className = 'status missing';
+          s.textContent = ' (not published yet)';
+          a.after(s);
+        }
+      }));
+
+      const status = document.getElementById('status');
+      if (status) status.textContent = missing ? `  •  ${missing} link(s) not published yet.` : `  •  All links look published.`;
+    })();
+  </script>
 </body>
 </html>
-EOF
