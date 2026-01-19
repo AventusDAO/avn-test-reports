@@ -126,7 +126,7 @@
         <h1>AVN Test Reports</h1>
         <p class="subtitle">
           Interactive Mochawesome reports hosted on GitHub Pages.
-          Use <code>latest.html</code> for quick access. Older runs are kept as timestamped files.
+          Click a chain to view the report history (timestamped runs).
         </p>
       </div>
       <div class="pill" title="GitHub Pages hosted">
@@ -146,41 +146,41 @@
           <ul class="chain-list">
             <li class="row">
               <div class="row-left">
-                <div class="row-title">AVN • Dev</div>
-                <div class="row-sub">./functional/avn/dev/</div>
+                <div class="row-title">Dev</div>
+                <div class="row-sub">./functional/dev/</div>
               </div>
               <div class="actions">
-                <a class="btn" data-check href="./functional/avn/dev/latest.html">Open latest</a>
+                <a class="btn" data-check href="./functional/dev/">View reports</a>
               </div>
             </li>
 
             <li class="row">
               <div class="row-left">
-                <div class="row-title">AVN • Public Testnet</div>
-                <div class="row-sub">./functional/avn/public_testnet/</div>
+                <div class="row-title">Public Testnet</div>
+                <div class="row-sub">./functional/public_testnet/</div>
               </div>
               <div class="actions">
-                <a class="btn" data-check href="./functional/avn/public_testnet/latest.html">Open latest</a>
+                <a class="btn" data-check href="./functional/public_testnet/">View reports</a>
               </div>
             </li>
 
             <li class="row">
               <div class="row-left">
-                <div class="row-title">Vow • Public Testnet</div>
-                <div class="row-sub">./functional/vow/</div>
+                <div class="row-title">Vow Testnet</div>
+                <div class="row-sub">./functional/vow_testnet/</div>
               </div>
               <div class="actions">
-                <a class="btn" data-check href="./functional/vow/public_testnet/latest.html">Open latest</a>
+                <a class="btn" data-check href="./functional/vow_testnet/">View reports</a>
               </div>
             </li>
 
             <li class="row">
               <div class="row-left">
-                <div class="row-title">Truth • Public Testnet</div>
-                <div class="row-sub">./functional/truth/</div>
+                <div class="row-title">Truth Testnet</div>
+                <div class="row-sub">./functional/truth_testnet/</div>
               </div>
               <div class="actions">
-                <a class="btn" data-check href="./functional/truth/public_testnet/latest.html">Open latest</a>
+                <a class="btn" data-check href="./functional/truth_testnet/">View reports</a>
               </div>
             </li>
           </ul>
@@ -197,41 +197,41 @@
           <ul class="chain-list">
             <li class="row">
               <div class="row-left">
-                <div class="row-title">AVN • Dev</div>
-                <div class="row-sub">./gateway/avn/dev/</div>
+                <div class="row-title">Dev</div>
+                <div class="row-sub">./gateway/dev/</div>
               </div>
               <div class="actions">
-                <a class="btn" data-check href="./gateway/avn/dev/latest.html">Open latest</a>
+                <a class="btn" data-check href="./gateway/dev/">View reports</a>
               </div>
             </li>
 
             <li class="row">
               <div class="row-left">
-                <div class="row-title">AVN • Public Testnet</div>
-                <div class="row-sub">./gateway/avn/public_testnet/</div>
+                <div class="row-title">Public Testnet</div>
+                <div class="row-sub">./gateway/public_testnet/</div>
               </div>
               <div class="actions">
-                <a class="btn" data-check href="./gateway/avn/public_testnet/latest.html">Open latest</a>
+                <a class="btn" data-check href="./gateway/public_testnet/">View reports</a>
               </div>
             </li>
 
             <li class="row">
               <div class="row-left">
-                <div class="row-title">Vow</div>
-                <div class="row-sub">./gateway/vow/</div>
+                <div class="row-title">Vow Testnet</div>
+                <div class="row-sub">./gateway/vow_testnet/</div>
               </div>
               <div class="actions">
-                <a class="btn" data-check href="./gateway/vow/latest.html">Open latest</a>
+                <a class="btn" data-check href="./gateway/vow_testnet/">View reports</a>
               </div>
             </li>
 
             <li class="row">
               <div class="row-left">
-                <div class="row-title">Truth</div>
-                <div class="row-sub">./gateway/truth/</div>
+                <div class="row-title">Truth Testnet</div>
+                <div class="row-sub">./gateway/truth_testnet/</div>
               </div>
               <div class="actions">
-                <a class="btn" data-check href="./gateway/truth/latest.html">Open latest</a>
+                <a class="btn" data-check href="./gateway/truth_testnet/">View reports</a>
               </div>
             </li>
           </ul>
@@ -248,6 +248,7 @@
 
   <script>
     // Best-effort: mark links that aren't published yet (helps first-time setup).
+    // Once each chain folder has its own generated index.html, these checks are accurate.
     (async function() {
       const links = Array.from(document.querySelectorAll('a[data-check]'));
       if (!links.length) return;
