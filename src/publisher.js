@@ -4,23 +4,22 @@ const fs = require('fs');
 const path = require('path');
 const os = require('os');
 const { execSync } = require('child_process');
+const { chainIndexHtml } = require('./chainIndexTemplate');
 
 function run(cmd, cwd) {
   execSync(cmd, { cwd, stdio: 'inherit' });
 }
 
 function safeTimestamp() {
-  // e.g. 2026-01-12T18_04_33 (UTC; sortable)
   return new Date().toISOString().split('.')[0].replaceAll(':', '_');
 }
 
 function parseTimestampFromFilename(filename) {
-  // expects: YYYY-MM-DDTHH_MM_SS.html
   const m = filename.match(/^(\d{4}-\d{2}-\d{2}T\d{2}_\d{2}_\d{2})\.html$/);
   if (!m) return null;
 
-  const isoish = m[1].replaceAll('_', ':'); // YYYY-MM-DDTHH:MM:SS
-  const d = new Date(`${isoish}Z`); // safeTimestamp() is UTC
+  const isoish = m[1].replaceAll('_', ':');
+  const d = new Date(`${isoish}Z`);
   if (Number.isNaN(d.getTime())) return null;
   return d;
 }
@@ -31,7 +30,7 @@ function listTimestampedReports(dir) {
     .filter(f => f.endsWith('.html') && f !== 'index.html')
     .map(f => ({ file: f, date: parseTimestampFromFilename(f) }))
     .filter(x => x.date)
-    .sort((a, b) => b.date - a.date); // newest first
+    .sort((a, b) => b.date - a.date);
 }
 
 function pruneByAge(dir, retainDays) {
@@ -46,9 +45,7 @@ function pruneByAge(dir, retainDays) {
   const reports = listTimestampedReports(dir);
   const toDelete = reports.filter(r => r.date < cutoff);
 
-  for (const r of toDelete) {
-    fs.unlinkSync(path.join(dir, r.file));
-  }
+  for (const r of toDelete) fs.unlinkSync(path.join(dir, r.file));
 
   if (toDelete.length) {
     console.log(`🧹 Deleted ${toDelete.length} report(s) older than ${retainDays} day(s) (cutoff: ${cutoff.toISOString()}):`);
@@ -59,14 +56,13 @@ function pruneByAge(dir, retainDays) {
 }
 
 function prettyNameFromFilename(file) {
-  // 2026-01-19T14_03_22.html -> 2026-01-19 14:03:22 UTC
   const d = parseTimestampFromFilename(file);
   if (!d) return file;
   return d.toISOString().replace('T', ' ').replace('Z', ' UTC');
 }
 
 function writeChainIndex(targetDir, suite, chain, retainDays) {
-  const reports = listTimestampedReports(targetDir); // newest first
+  const reports = listTimestampedReports(targetDir);
 
   const itemsHtml = reports.map((r, idx) => {
     const label = prettyNameFromFilename(r.file);
@@ -93,123 +89,7 @@ function writeChainIndex(targetDir, suite, chain, retainDays) {
     </li>
   `;
 
-  const html = `<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>${suite} • ${chain} • Reports</title>
-  <style>
-    :root{
-      --bg:#0b1220;
-      --text:#eaf0ff;
-      --muted:#a8b3d6;
-      --line:rgba(255,255,255,.10);
-      --accent:#7aa2ff;
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --radius: 16px;
-      --good:#2dd4bf;
-    }
-    *{ box-sizing:border-box; }
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      background: radial-gradient(1200px 800px at 20% 0%, #162652 0%, var(--bg) 55%) fixed;
-      color: var(--text);
-    }
-    .container{ max-width:1100px; margin:0 auto; padding:28px 18px 60px; }
-    .header{
-      display:flex; gap:16px; align-items:flex-end; justify-content:space-between; flex-wrap:wrap;
-      padding:18px 18px 22px;
-      border:1px solid var(--line);
-      border-radius: var(--radius);
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      box-shadow: var(--shadow);
-    }
-    h1{ margin:0; font-size:24px; letter-spacing:.2px; }
-    .subtitle{ margin:6px 0 0; color:var(--muted); line-height:1.35; font-size:14px; }
-    .pill{
-      display:inline-flex; align-items:center; gap:10px;
-      padding:10px 12px;
-      border:1px solid var(--line);
-      border-radius:999px;
-      background: rgba(0,0,0,.18);
-      color: var(--muted);
-      font-size: 13px;
-      white-space:nowrap;
-    }
-    .dot{ width:9px;height:9px;border-radius:999px;background:var(--good); box-shadow:0 0 0 3px rgba(45,212,191,.15); }
-
-    .chain-list{ margin-top:18px; display:flex; flex-direction:column; gap:10px; padding:0; list-style:none; }
-    .row{
-      display:flex; align-items:center; justify-content:space-between; gap:12px;
-      padding:12px 12px;
-      border:1px solid var(--line);
-      border-radius:12px;
-      background: rgba(0,0,0,.16);
-    }
-    .row-left{ display:flex; flex-direction:column; gap:2px; min-width: 170px; }
-    .row-title{ font-weight:700; font-size:14px; letter-spacing:.2px; }
-    .row-sub{ color: var(--muted); font-size:12px; }
-    .actions{ display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
-    .btn{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:10px 12px;
-      border-radius:12px;
-      border:1px solid var(--line);
-      background: rgba(122,162,255,.12);
-      text-decoration:none;
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--text);
-    }
-    .btn:hover{ background: rgba(122,162,255,.18); }
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      padding:3px 8px;
-      margin-left:8px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      color: var(--muted);
-      background: rgba(0,0,0,.18);
-      font-size: 12px;
-      font-weight: 600;
-      vertical-align: middle;
-    }
-    code{
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      background: rgba(255,255,255,.06);
-      padding: 2px 6px;
-      border-radius: 8px;
-      border:1px solid var(--line);
-      color: var(--text);
-      font-size: 12px;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="header">
-      <div>
-        <h1>${suite} • ${chain}</h1>
-        <p class="subtitle">
-          Report history (newest first). Files older than <code>${retainDays}</code> day(s) are automatically removed.
-        </p>
-      </div>
-      <div class="pill" title="GitHub Pages hosted">
-        <span class="dot"></span>
-        <a class="btn" style="padding:8px 10px" href="../../index.html">← Back</a>
-      </div>
-    </div>
-
-    <ul class="chain-list">
-      ${itemsHtml || emptyHtml}
-    </ul>
-  </div>
-</body>
-</html>`;
-
+  const html = chainIndexHtml({ suite, chain, retainDays, itemsHtml, emptyHtml });
   fs.writeFileSync(path.join(targetDir, 'index.html'), html);
 }
 
@@ -233,22 +113,18 @@ async function publishReport(opts) {
   }
 
   const absReportPath = path.resolve(process.cwd(), reportPath);
-  if (!fs.existsSync(absReportPath)) {
-    throw new Error(`Report not found at: ${absReportPath}`);
-  }
+  if (!fs.existsSync(absReportPath)) throw new Error(`Report not found at: ${absReportPath}`);
 
-  // Prevent git from ever trying to prompt in CI
   process.env.GIT_TERMINAL_PROMPT = '0';
+  const cleanToken = String(token).trim();
+  if (!cleanToken) throw new Error('Token is empty after trimming (check Jenkins credential value).');
 
   const workDir = fs.mkdtempSync(path.join(os.tmpdir(), 'avn-test-reports-'));
-
-  // Use GitHub-recommended token URL format
-  const repoUrl = `https://x-access-token:${token}@github.com/${repo}.git`;
+  const repoUrl = `https://x-access-token:${cleanToken}@github.com/${repo}.git`;
 
   console.log(`📥 Cloning ${repo} (${branch})...`);
   run(`git clone --branch ${branch} ${repoUrl} .`, workDir);
 
-  // Force origin to authenticated URL (prevents prompt/credential-helper weirdness)
   run(`git remote set-url origin ${repoUrl}`, workDir);
   run(`git config --local credential.helper ""`, workDir);
 
