@@ -93,6 +93,10 @@ function writeChainIndex(targetDir, suite, chain, retainDays) {
   fs.writeFileSync(path.join(targetDir, 'index.html'), html);
 }
 
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 async function publishReport(opts) {
   const {
     suite,
@@ -150,6 +154,9 @@ async function publishReport(opts) {
 
   console.log(`🚀 Pushing to ${branch}...`);
   run(`git push origin ${branch}`, workDir);
+
+  console.log('⏳ Waiting 60 seconds for GitHub Pages to update...');
+  await sleep(60_000);
 
   const baseUrl = `https://${repo.split('/')[0].toLowerCase()}.github.io/${repo.split('/')[1]}/${suite}/${chain}`;
   console.log(`✅ Published run: ${baseUrl}/${tsFile}`);
