@@ -1,118 +1,44 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>gateway • public_testnet • Reports</title>
-  <style>
-    :root{
-      --bg:#0b1220;
-      --text:#eaf0ff;
-      --muted:#a8b3d6;
-      --line:rgba(255,255,255,.10);
-      --accent:#7aa2ff;
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --radius: 16px;
-      --good:#2dd4bf;
-    }
-    *{ box-sizing:border-box; }
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      background: radial-gradient(1200px 800px at 20% 0%, #162652 0%, var(--bg) 55%) fixed;
-      color: var(--text);
-    }
-    .container{ max-width:1100px; margin:0 auto; padding:28px 18px 60px; }
-    .header{
-      display:flex; gap:16px; align-items:flex-end; justify-content:space-between; flex-wrap:wrap;
-      padding:18px 18px 22px;
-      border:1px solid var(--line);
-      border-radius: var(--radius);
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      box-shadow: var(--shadow);
-    }
-    h1{ margin:0; font-size:24px; letter-spacing:.2px; }
-    .subtitle{ margin:6px 0 0; color:var(--muted); line-height:1.35; font-size:14px; }
-    .pill{
-      display:inline-flex; align-items:center; gap:10px;
-      padding:10px 12px;
-      border:1px solid var(--line);
-      border-radius:999px;
-      background: rgba(0,0,0,.18);
-      color: var(--muted);
-      font-size: 13px;
-      white-space:nowrap;
-    }
-    .dot{ width:9px;height:9px;border-radius:999px;background:var(--good); box-shadow:0 0 0 3px rgba(45,212,191,.15); }
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>gateway • public_testnet • Reports</title>
 
-    .chain-list{ margin-top:18px; display:flex; flex-direction:column; gap:10px; padding:0; list-style:none; }
-    .row{
-      display:flex; align-items:center; justify-content:space-between; gap:12px;
-      padding:12px 12px;
-      border:1px solid var(--line);
-      border-radius:12px;
-      background: rgba(0,0,0,.16);
-    }
-    .row-left{ display:flex; flex-direction:column; gap:2px; min-width: 170px; }
-    .row-title{ font-weight:700; font-size:14px; letter-spacing:.2px; }
-    .row-sub{ color: var(--muted); font-size:12px; }
-    .actions{ display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
-    .btn{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:10px 12px;
-      border-radius:12px;
-      border:1px solid var(--line);
-      background: rgba(122,162,255,.12);
-      text-decoration:none;
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--text);
-    }
-    .btn:hover{ background: rgba(122,162,255,.18); }
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      padding:3px 8px;
-      margin-left:8px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      color: var(--muted);
-      background: rgba(0,0,0,.18);
-      font-size: 12px;
-      font-weight: 600;
-      vertical-align: middle;
-    }
-    code{
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      background: rgba(255,255,255,.06);
-      padding: 2px 6px;
-      border-radius: 8px;
-      border:1px solid var(--line);
-      color: var(--text);
-      font-size: 12px;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="header">
-      <div>
-        <h1>gateway • public_testnet</h1>
-        <p class="subtitle">
-          Report history (newest first). Files older than <code>30</code> day(s) are automatically removed.
-        </p>
-      </div>
-      <div class="pill" title="GitHub Pages hosted">
-        <span class="dot"></span>
-        <a class="btn" style="padding:8px 10px" href="../../index.html">← Back</a>
-      </div>
-    </div>
+    <link rel="stylesheet" href="./chainIndex.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div>
+          <h1>gateway • public_testnet</h1>
+          <p class="subtitle">
+            Report history (newest first). Files older than <code>30</code> day(s) are automatically removed.
+          </p>
+        </div>
 
-    <ul class="chain-list">
-      
+        <div class="pill" title="GitHub Pages hosted">
+          <span class="dot"></span>
+          <a class="btn" style="padding:8px 10px" href="../../index.html">← Back</a>
+        </div>
+      </div>
+
+      <ul class="chain-list">
+        
       <li class="row">
         <div class="row-left">
-          <div class="row-title">2026-01-20 08:16:09.000 UTC <span class="badge">Newest</span></div>
+          <div class="row-title">2026-01-22 13:47:43.000 UTC <span class="badge">Newest</span></div>
+          <div class="row-sub">2026-01-22T13_47_43.html</div>
+        </div>
+        <div class="actions">
+          <a class="btn" href="./2026-01-22T13_47_43.html">Open report</a>
+        </div>
+      </li>
+    
+
+      <li class="row">
+        <div class="row-left">
+          <div class="row-title">2026-01-20 08:16:09.000 UTC </div>
           <div class="row-sub">2026-01-20T08_16_09.html</div>
         </div>
         <div class="actions">
@@ -120,7 +46,7 @@
         </div>
       </li>
     
-    </ul>
-  </div>
-</body>
+      </ul>
+    </div>
+  </body>
 </html>
