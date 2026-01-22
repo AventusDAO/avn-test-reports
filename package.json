@@ -1,0 +1,17 @@
+{
+  "name": "@aventus/avn-test-reports",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Publish Mochawesome HTML reports to avn-test-reports gh-pages",
+  "main": "src/index.js",
+  "bin": {
+    "avn-publish-report": "bin/avn-publish-report.js"
+  },
+  "type": "commonjs",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "yargs": "^17.7.2"
+  }
+}
