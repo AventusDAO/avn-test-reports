@@ -97,6 +97,12 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+function copyChainIndexCss(targetDir) {
+  const cssSrc = path.resolve(__dirname, 'chainIndex.css');  
+  const cssDst = path.join(targetDir, 'chainIndex.css');     
+  fs.copyFileSync(cssSrc, cssDst);
+}
+
 async function publishReport(opts) {
   const {
     suite,
@@ -134,6 +140,8 @@ async function publishReport(opts) {
 
   const targetDir = path.join(workDir, suite, chain);
   fs.mkdirSync(targetDir, { recursive: true });
+
+  copyChainIndexCss(targetDir);
 
   const tsFile = `${safeTimestamp()}.html`;
   fs.copyFileSync(absReportPath, path.join(targetDir, tsFile));
