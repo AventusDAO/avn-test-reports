@@ -1,29 +1,124 @@
-cat > index.html <<'EOF'
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>AVN Test Reports</title>
+
+  <link rel="stylesheet" href="./assets/styles.css" />
 </head>
 <body>
-  <h2>AVN Test Reports</h2>
-  <p>This site hosts automated test reports.</p>
+  <div class="container">
+    <div class="header">
+      <div>
+        <h1>Aventus - Test Reports</h1>
+        <p class="subtitle">
+          Interactive Mochawesome reports hosted on GitHub Pages.
+          Click a chain to view the report history.
+        </p>
+      </div>
+      <div class="pill" title="GitHub Pages hosted">
+        <span class="dot"></span>
+        Hosted on <strong>aventusdao.github.io</strong>
+      </div>
+    </div>
 
-  <h3>Functional</h3>
-  <ul>
-    <li><a href="./functional/dev/latest.html">Functional - Dev (latest)</a></li>
-    <li><a href="./functional/public_testnet/latest.html">Functional - Public Testnet (latest)</a></li>
-    <li><a href="./functional/vow/latest.html">Functional - Vow (latest)</a></li>
-  </ul>
+    <div class="grid">
+      <!-- Functional -->
+      <section class="card">
+        <div class="card-head">
+          <h2>Functional Tests</h2>
+        </div>
+        <div class="card-body">
+          <ul class="chain-list">
+            <li class="row">
+              <div class="row-left">
+                <div class="row-title">AVN - Dev</div>
+              </div>
+              <div class="actions">
+                <a class="btn" data-check href="./functional/dev/">View reports</a>
+              </div>
+            </li>
 
-  <h3>Gateway</h3>
-  <ul>
-    <li><a href="./gateway/dev/latest.html">Gateway - Dev (latest)</a></li>
-    <li><a href="./gateway/public_testnet/latest.html">Gateway - Public Testnet (latest)</a></li>
-    <li><a href="./gateway/vow/latest.html">Gateway - Vow (latest)</a></li>
-  </ul>
+            <li class="row">
+              <div class="row-left">
+                <div class="row-title">AVN - Public Testnet</div>
+              </div>
+              <div class="actions">
+                <a class="btn" data-check href="./functional/public_testnet/">View reports</a>
+              </div>
+            </li>
 
-  <p><em>Links will work after the first reports are published.</em></p>
+            <li class="row">
+              <div class="row-left">
+                <div class="row-title">Vow - Public Testnet</div>
+              </div>
+              <div class="actions">
+                <a class="btn" data-check href="./functional/vow/">View reports</a>
+              </div>
+            </li>
+
+            <li class="row">
+              <div class="row-left">
+                <div class="row-title">Truth - Public Testnet</div>
+              </div>
+              <div class="actions">
+                <a class="btn" data-check href="./functional/truth_testnet/">View reports</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Gateway -->
+      <section class="card">
+        <div class="card-head">
+          <h2>Gateway Tests</h2>
+        </div>
+        <div class="card-body">
+          <ul class="chain-list">
+            <li class="row">
+              <div class="row-left">
+                <div class="row-title">AVN - Dev</div>
+              </div>
+              <div class="actions">
+                <a class="btn" data-check href="./gateway/dev/">View reports</a>
+              </div>
+            </li>
+
+            <li class="row">
+              <div class="row-left">
+                <div class="row-title">AVN - Public Testnet</div>
+              </div>
+              <div class="actions">
+                <a class="btn" data-check href="./gateway/public_testnet/">View reports</a>
+              </div>
+            </li>
+
+            <li class="row">
+              <div class="row-left">
+                <div class="row-title">Vow - Public Testnet</div>
+              </div>
+              <div class="actions">
+                <a class="btn" data-check href="./gateway/vow/">View reports</a>
+              </div>
+            </li>
+
+            <li class="row">
+              <div class="row-left">
+                <div class="row-title">Truth - Public Testnet</div>
+              </div>
+              <div class="actions">
+                <a class="btn" data-check href="./gateway/truth_testnet/">View reports</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Put JS at the end so DOM is ready -->
+  <script src="./assets/app.js" defer></script>
 </body>
 </html>
-EOF
